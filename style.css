@@ -213,3 +213,19 @@ select {
 option {
     font-size: 2rem;
 }
+
+@media screen and (max-width: 768px) {
+    select {
+        font-size: 6rem;
+    }
+    input {
+        font-size: 4rem;
+    }
+    #submit {
+        font-size: 4.8rem;
+        padding: 3rem;
+    }
+    input[type=radio]+label {
+        font-size: 3.2rem;
+    }
+}
