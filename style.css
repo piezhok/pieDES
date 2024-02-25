@@ -1,0 +1,215 @@
+:root {
+    font-size: 62.5%;
+}
+
+body {
+    background-color: rgb(198, 137, 255);
+}
+
+body, input, select, option, button {
+    font-size: 1.6rem;
+    font-family: "Roboto Mono", monospace;
+    font-weight: 500;
+    margin: 0;
+}
+
+input, select, option {
+    font-weight: 400;
+}
+
+button {
+    background-color: black;
+    color: white;
+	border: none;
+    cursor: pointer;
+	outline: inherit;
+}
+
+#logo {
+    font-size: 5rem;
+    text-align: center;
+}
+
+#submit {
+    width: 100%;
+    font-size: 2.4rem;
+    padding: 1rem;
+    margin-top: 1.6rem;
+}
+
+#form-container {
+    /* width: 100%; */
+    padding: 3rem 3rem;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(198, 137, 255);
+}
+
+#container {
+    padding: 3rem 3rem;
+    margin-top: 0;
+    /* display: flex; */
+    display: none;
+    flex-direction: column;
+    background-color: white;
+}
+
+#generation, #encryption {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3rem;
+    /* border-top: 1rem black solid; */
+}
+
+h1, h2, h3 {
+    margin: 1rem 0;
+    margin-bottom: 0;
+}
+
+h1 {
+    /* text-align: center; */
+    /* border-top: .5rem black solid; */
+    background-color: white;
+    border-bottom: .5rem black solid;
+    position: sticky;
+    padding-top: .5rem;
+    top: -.2rem;
+}
+
+table {
+    text-align: center;
+    border: .2rem black solid;
+    border-collapse: collapse;
+}
+
+caption {
+    text-align: left;
+    margin-bottom: .4rem;
+}
+
+td {
+    border-bottom: .2rem black solid;
+    padding: 0rem 1rem;
+}
+
+th {
+    font-weight: 700;
+    border-right: .2rem black solid;
+    padding: .2rem .4rem;
+    color: white;
+    background-color: black;
+}
+
+.tableBox {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    /* scrollbar-color: black; */
+}
+/* 
+.tableBox::-webkit-scrollbar-track {
+    background-color: white;
+}
+
+.tableBox::-webkit-scrollbar-thumb {
+    background-color: black;
+} */
+
+label {
+    display: block;
+    margin-top: .6rem;
+}
+
+input {
+    border: .2rem black solid;
+    outline: none;
+    font-size: 2rem;
+    padding: .6rem;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+input[type=radio] {
+    width: auto;
+    -webkit-appearance: none;
+    position: absolute;
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    z-index: -1;
+}
+
+input[type=radio]+label {
+    display: inline;
+    padding: .6rem;
+    background-color: white;
+    border: .2rem black solid;
+    box-sizing: content-box;
+    /* border */
+    transition: all .2s;
+}
+input[type=radio]:hover+label {
+    display: inline;
+    padding: .6rem;
+    background-color: black;
+    color: white;
+}
+input[type=radio]:checked+label {
+    display: inline;
+    padding: .6rem;
+    background-color: black;
+    color: white;
+}
+
+#indexBtn-box {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+    gap: 1rem;
+    white-space: nowrap;
+    overflow-x: auto;
+    /* margin-top: 1rem; */
+}
+
+/* #openedText-input {
+    width: 100%;
+}
+
+#key-input {
+    width: 100%;
+} */
+
+input[type=number] {
+    text-align: center;
+    appearance: none;
+    -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#key-input-box, #shifts-input-box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+select {
+    /* appearance: none; */
+    width: 100%;
+    font-size: 3rem;
+    text-align: center;
+    border: .2rem black solid;
+    outline: none;
+    transition: all .4s;
+    /* padding: .6rem;
+    box-sizing: border-box; */
+}
+
+option {
+    font-size: 2rem;
+}

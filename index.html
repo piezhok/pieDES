@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Yanone+Kaffeesatz:wght@200..700&display=swap');</style>
+        <script src="conf.js"></script>
+        <link rel="stylesheet" href="./style.css">
+        <title>пизDES</title>
+    </head>
+    <body>
+        <div id="logo"><span style="font-size: 3rem; font-weight: 400;">пиз</span>DES</div>
+        <div id="form-container">
+            <select name="variant" id="variant-input">
+                <option value="-1">Варианты</option>
+                <script>
+                    let strvar = "";
+                    for (let i = 0; i < 25; i++) {
+                        strvar += `<option value="${i}">${i+1} вариант</option>`;
+                    }
+                    document.currentScript.parentElement.innerHTML += strvar;
+                </script>
+            </select>
+
+            <label for="openedText-input">Открытый текст</label>
+            <input type="text" name="opened_text" id="openedText-input" required>
+
+            <div style="display: flex; flex-direction: row; width: 100%; gap: 2rem;">
+
+                <div id="key-input-box">
+                    <label for="key-input">Ключ</label>
+                    <input type="text" name="key" id="key-input" required>
+                </div>
+
+                <div id="shifts-input-box">
+                    <label for="shift1">Сдвиги</label>
+                    <div style="display: flex; flex-direction: row; gap: .5rem;">
+                    <input class="shift-input" type="number" name="shift1" id="shift1" min="0" max="16">
+                    <input class="shift-input" type="number" name="shift2" id="shift2" min="0" max="16">
+                    <input class="shift-input" type="number" name="shift3" id="shift3" min="0" max="16">
+                    </div>
+                </div>
+            </div>
+            <!-- <input id="submit" type="submit" value="Submit"> -->
+            <button id="submit">Гойда</button>
+
+            <!-- <div id="testDiv">
+            <input type="radio" name="part" id="testR">
+            <label for="testR">sdsds</label>
+            <input type="radio" name="part" id="testR1">
+            <label for="testR1">sdsds</label>
+            </div> -->
+        </div>
+        <div id="container">
+            <div id="generation">
+                <h1>Генерация ключей</h1>
+                <h2 id="key-label"></h2>
+                <table id="key-begin">
+                </table>
+                <h2>Удаление битов проверки</h2>
+                <table id="key-removeCheck">
+                </table>
+                <h2>Сдвиги</h2>
+                <div class="tableBox">
+                    <table class="shiftTable"></table>
+                    <table class="shiftTable"></table>
+                    <table class="shiftTable"></table>
+                </div>
+                <h2>Перестановка сжатия</h2>
+                <div class="tableBox">
+                    <table id="shrink1" class="shrinkTable"></table>
+                    <table id="shrink2" class="shrinkTable"></table>
+                    <table id="shrink3" class="shrinkTable"></table>
+                </div>
+            </div>
+            <div id="encryption">
+                <h1>Шифрование</h1>
+                <h2 id="openedText-label">В камень стрелять - только стрелы терять</h2>
+                <div class="tableBox" id="openedText-tableBox"></div>
+                <h3>Часть, которую шифруем</h3>
+                <div id="indexBtn-box"></div>
+                <h2>Начальная перестановка</h2>
+                <table id="openingReplacing"></table>
+                <h2> P-Блоки</h2>
+                <div class="tableBox" id="pBlocked-tableBox">
+                </div>
+                <h2>Суммирование по модулю 2 P-блоков с ключом</h2>
+                <div style="display:flex; flex-direction: row; gap: 6rem; overflow-x: auto;" id="additions"></div>
+                <h2>S-Блоки</h2>
+                <div class="tableBox" id="sBlocked-tableBox"></div>
+                <h2>Прямая перестановка</h2>
+                <div class="tableBox" id="straightReplaced-tableBox"></div>     
+                <h2>Соединяем левую и правую части</h2>
+                <table id="connected"></table>
+                <h2>Конечная перестановка</h2>
+                <table id="endingReplacing"></table>
+            </div>
+        </div>
+        <script src="script.js"></script>
+        <script src="button.js"></script>
+    </body>
+</html>
