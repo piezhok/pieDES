@@ -208,6 +208,7 @@ select {
     border: .2rem black solid;
     outline: none;
     transition: all .4s;
+    background-color: white;
     /* padding: .6rem;
     box-sizing: border-box; */
 }
