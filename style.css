@@ -125,6 +125,7 @@ label {
 
 input {
     border: .2rem black solid;
+    background-color: white;
     outline: none;
     font-size: 2rem;
     padding: .6rem;
