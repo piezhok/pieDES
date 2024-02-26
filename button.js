@@ -79,20 +79,16 @@ submit.addEventListener("click", function() {
             for (let i = 0; i < addition_boxes.length; i++) {
                 if (i % 2 != 0) {
                     addition_boxes[i].style.display = "block";
-                    partsAddition_boxes[i].style.display = "block";
                 } else {
                     addition_boxes[i].style.display = "none";
-                    partsAddition_boxes[i].style.display = "none";
                 }
             }
         } else {
             for (let i = 0; i < addition_boxes.length; i++) {
                 if (i % 2 != 0) {
                     addition_boxes[i].style.display = "none";
-                    partsAddition_boxes[i].style.display = "none";
                 } else {
                     addition_boxes[i].style.display = "block";
-                    partsAddition_boxes[i].style.display = "block";
                 }
             }
         }
@@ -102,20 +98,16 @@ submit.addEventListener("click", function() {
         if (partsAddition_checkbox.checked) {
             for (let i = 0; i < addition_boxes.length; i++) {
                 if (i % 2 != 0) {
-                    addition_boxes[i].style.display = "block";
                     partsAddition_boxes[i].style.display = "block";
                 } else {
-                    addition_boxes[i].style.display = "none";
                     partsAddition_boxes[i].style.display = "none";
                 }
             }
         } else {
             for (let i = 0; i < addition_boxes.length; i++) {
                 if (i % 2 != 0) {
-                    addition_boxes[i].style.display = "none";
                     partsAddition_boxes[i].style.display = "none";
                 } else {
-                    addition_boxes[i].style.display = "block";
                     partsAddition_boxes[i].style.display = "block";
                 }
             }
