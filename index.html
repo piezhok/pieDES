@@ -65,13 +65,14 @@
                     <table class="shiftTable"></table>
                     <table class="shiftTable"></table>
                 </div>
-                <div class="class=ption">Следует записывать таблицы попарно<br>(n-ый сдвиг - n-ое сжатие)</div>
+                <div class="description">1, 2, 9 и 16 сдвиги сдвигаются на 1 циферку, остальные на 2.<br>Следует записывать таблицы попарно<br>(n-ый сдвиг (вон то ↑) - n-ое сжатие (вон то ↓))</div>
                 <h2>Перестановка сжатия</h2>
                 <div class="tableBox">
                     <table id="shrink1" class="shrinkTable"></table>
                     <table id="shrink2" class="shrinkTable"></table>
                     <table id="shrink3" class="shrinkTable"></table>
                 </div>
+                <div class="description">Переставляем циферки n-ого сдвига, следуя табличке перестановки</div>
             </div>
             <div id="encryption">
                 <h1>Шифрование</h1>
@@ -95,7 +96,7 @@
                 </div>
                 <h2> P-Блоки</h2>
                 <div class="tableBox" id="pBlocked-tableBox"></div>
-                <div class="description">В 1-ом раунде берем нижнюю половину начальной перестановки, далее будет браться результаты прошлых раундов</div>
+                <div class="description">В 1-ом раунде берем нижнюю половину начальной перестановки, далее будут браться результаты прошлых раундов</div>
                 <h2>Отбеливатель</h2>
                 <div class="description">Суммирование P-блоков с ключом по модулю 2</div>
                 <div id="checkbox-box">
