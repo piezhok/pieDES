@@ -399,11 +399,11 @@ setSomeTables(straightReplacedArrs, straightReplacedTables_Arr, straightReplaced
     setEnum(tableEndingReplacing, endingReplacing);
 }
 
-const key = "PROTOCOL";
-const openedText = "В камень стрелять - только стрелы терять";
-const shiftsNums = [9, 10, 11];
-container.style.display="flex";
-main(key, openedText, shiftsNums);
+// const key = "PROTOCOL";
+// const openedText = "В камень стрелять - только стрелы терять";
+// const shiftsNums = [9, 10, 11];
+// container.style.display="flex";
+// main(key, openedText, shiftsNums);
 
 // дебажим
 // document.body.innerHTML += tableOpenedText.tagName;
