@@ -9,6 +9,11 @@ const tableConnected = document.querySelector("#connected");
 const tableEndingReplacing = document.querySelector("#endingReplacing");
 const indexBtn_Box = document.querySelector("#indexBtn-box");
 
+let addition_boxes;
+let partsAddition_boxes;
+const addition_checkbox = document.querySelector("#addition-mode");
+const partsAddition_checkbox = document.querySelector("#parts-addition-mode");
+
 ////////////
 const openedText_TablesBox = document.querySelector("#openedText-tableBox");
 const pBlocked_TableBox = document.querySelector("#pBlocked-tableBox");
@@ -268,135 +273,145 @@ function main(key, openedText, shiftsNums, n=0) {
             leftArr.push(arr[i]);
         else
         rightArr.push(arr[i]);
-}
-for (let i = 0; i < finalKeys.length; i++) {
-    let pBlocked = replace(rightArr, pBlock);           // P блок
-    let sBlocked = [];
-    pBlockedArrs.push(pBlocked);
-    let pBlockedNkey = [];
-    for (let j = 0; j < 48; j++) {          // Сложение с ключом
-        pBlockedNkey.push(pBlocked[j] ^ finalKeys[i][j]);
-    }
-    pBlockedNkeyArrs.push(pBlockedNkey);
-    for (let j = 0; j < 8; j++) {                   // S блок
-        row = parseInt(pBlockedNkey[0+j*6].toString()+pBlockedNkey[5+j*6].toString(), 2);
-        col = parseInt(pBlockedNkey[1+j*6].toString()+pBlockedNkey[2+j*6].toString()+pBlockedNkey[3+j*6].toString()+pBlockedNkey[4+j*6].toString(), 2);
-        sNum = Number(sBlocks[j][row][col]).toString(2);
-                while (sNum.length < 4) {
-                    sNum = "0" + sNum;
-                }
-                for (let k = 0; k < 4; k++)
-                sBlocked.push(sNum[k]);
-            // preSblocked.innerHTML += `<div>${j+1}) </div>`;
-            // document.body.innerHTML += sBlocks[j][row][col] + " ";
         }
-        sBlockedArrs.push(sBlocked);
-        let straightReplaced = replace(sBlocked, straightReplacing);    // Прямая перестановка
-        straightReplacedArrs.push(straightReplaced);
-        let tempRight = rightArr;
-        rightArr = [];
+    for (let i = 0; i < finalKeys.length; i++) {
+        let pBlocked = replace(rightArr, pBlock);           // P блок
+        let sBlocked = [];
+        pBlockedArrs.push(pBlocked);
+        let pBlockedNkey = [];
+        for (let j = 0; j < 48; j++) {          // Сложение с ключом
+            pBlockedNkey.push(pBlocked[j] ^ finalKeys[i][j]);
+        }
+        pBlockedNkeyArrs.push(pBlockedNkey);
+        for (let j = 0; j < 8; j++) {                   // S блок
+            row = parseInt(pBlockedNkey[0+j*6].toString()+pBlockedNkey[5+j*6].toString(), 2);
+            col = parseInt(pBlockedNkey[1+j*6].toString()+pBlockedNkey[2+j*6].toString()+pBlockedNkey[3+j*6].toString()+pBlockedNkey[4+j*6].toString(), 2);
+            sNum = Number(sBlocks[j][row][col]).toString(2);
+                    while (sNum.length < 4) {
+                        sNum = "0" + sNum;
+                    }
+                    for (let k = 0; k < 4; k++)
+                    sBlocked.push(sNum[k]);
+                // preSblocked.innerHTML += `<div>${j+1}) </div>`;
+                // document.body.innerHTML += sBlocks[j][row][col] + " ";
+            }
+            sBlockedArrs.push(sBlocked);
+            let straightReplaced = replace(sBlocked, straightReplacing);    // Прямая перестановка
+            straightReplacedArrs.push(straightReplaced);
+            let tempRight = rightArr;
+            rightArr = [];
+            for (let j = 0; j < 32; j++) {
+                rightArr.push(leftArr[j] ^ straightReplaced[j]);
+            }
+            rightArrs.push(rightArr);
+            leftArrs.push(leftArr);
+            leftArr = tempRight;
+        }
+        connected = leftArr.concat(rightArr);
+        endingReplaced = replace(connected, endingReplacing);
+    }
+
+
+    encryption(openingReplacingArrs[n]);
+
+    // Вывод прямой перестановки 
+    tableOpeningReplacing.innerHTML = setTable(openingReplacingArrs[n], 8);
+    setEnum(tableOpeningReplacing, openingReplacing);
+
+    // Вывод P-блоков
+    setSomeTables(pBlockedArrs, pBlockedTables_Arr, pBlocked_TableBox, 8, 6, "Раунд");
+    for (let i = 0; i < pBlockedArrs.length; i++) {
+            setEnum(pBlockedTables_Arr[i], pBlock);
+        }
+        
+    // Вывод сложения п-блоков и ключей
+    for (let i = 0; i < pBlockedNkeyArrs.length; i++) {
+        let addition = document.createElement("div");
+        let str = "", sumstr = "", sumstr2= "";
+        let pB = "", fK = "", pNk = "", pB2 = "", fK2 = "", pNk2 = "", s = "";
+        let header = `<h3 style="padding-left: 1rem; border-left: black solid">${i+1} Раунд</h3>`
+        sumstr2 += `<div class="addition" style="white-space: nowrap; margin: .8rem 0">`;
+        let counter = 0;
+        for (let j = 0; j < 48; j++) {
+            if (j % 6 == 0 && j != 0) {
+                sumstr2 += `<div style="white-space: nowrap;">${pB2} ⨁ ${fK2} = ${pNk2}</div>`;
+                str += `<div style="white-space: nowrap;">S${j/6} = ${parseInt(s, 2)} = ${s}</div>`;
+                additions.appendChild(addition);
+                pB2 = "", fK2 = "", pNk2 = "", s = "";
+            }
+            if (j % 6 < 4) {
+                s += sBlockedArrs[i][counter];
+                counter++;
+            }
+            pB += pBlockedArrs[i][j];
+            fK += finalKeys[i][j];
+            pNk += pBlockedNkeyArrs[i][j];
+            pB2 += pBlockedArrs[i][j];
+            fK2 += finalKeys[i][j];
+            pNk2 += pBlockedNkeyArrs[i][j];
+        }
+        str += `<div style="white-space: nowrap;">S8 = ${parseInt(s, 2)} = ${s}</div>`;
+        sumstr += `<div class="addition" style="white-space: nowrap; margin: .8rem 0">${pB} ⨁<br>${fK} =<br><span style="border-top: .1em black solid;">${pNk}</span></div>`;
+        sumstr2 += `<div style="white-space: nowrap;">${pB2} ⨁ ${fK2} = ${pNk2}</div></div>`;
+        // sumstr += str;
+        addition.innerHTML += header;
+        addition.innerHTML += sumstr;
+        addition.innerHTML += sumstr2;
+        addition.innerHTML += str;
+        additions.appendChild(addition);
+    }
+
+    // Вывод сложения частей таблицы
+    for (let i = 0; i < rightArrs.length; i++) {
+        let addition = document.createElement("div");
+        let sumstr = "", sumstr2 = "";
+        let left = "", straight = "", right = "", left2 = "", straight2 = "", right2 = "";
+        let header = `<h3 style="padding-left: 1rem; border-left: black solid">${i+1} Раунд</h3>`
+        sumstr2 += `<div class="parts-addition" style="white-space: nowrap; margin: .8rem 0">`;
         for (let j = 0; j < 32; j++) {
-            rightArr.push(leftArr[j] ^ straightReplaced[j]);
+            if (j % 8 == 0 && j != 0) {
+                sumstr2 += `<div style="white-space: nowrap;">${left2} ⨁ ${straight2} = ${right2}</div>`;
+                additions.appendChild(addition);
+                left2 = "", straight2 = "", right2 = "";
+            }
+            left += leftArrs[i][j];
+            straight += straightReplacedArrs[i][j];
+            right += rightArrs[i][j];
+            left2 += leftArrs[i][j];
+            straight2 += straightReplacedArrs[i][j];
+            right2 += rightArrs[i][j];
         }
-        rightArrs.push(rightArr);
-        leftArrs.push(leftArr);
-        leftArr = tempRight;
+        sumstr += `<div class="parts-addition" style="white-space: nowrap; margin: .8rem 0">${left} ⨁<br>${straight} =<br><span style="border-top: .1em black solid;">${right}</span></div>`;
+        sumstr2 += `<div style="white-space: nowrap;">${left2} ⨁ ${straight2} = ${right2}</div></div>`;
+        // sumstr += str;
+        addition.innerHTML += header;
+        addition.innerHTML += sumstr;
+        addition.innerHTML += sumstr2;
+        partsAdditions.appendChild(addition);
     }
-    connected = leftArr.concat(rightArr);
-    endingReplaced = replace(connected, endingReplacing);
-}
 
+    setSomeTables(sBlockedArrs, sBlockedTables_Arr, sBlocked_TableBox, 4, 8, "Раунд");      // вывод s-блоков
 
-encryption(openingReplacingArrs[n]);
-
-// Вывод прямой перестановки 
-tableOpeningReplacing.innerHTML = setTable(openingReplacingArrs[n], 8);
-setEnum(tableOpeningReplacing, openingReplacing);
-
-// Вывод P-блоков
-setSomeTables(pBlockedArrs, pBlockedTables_Arr, pBlocked_TableBox, 8, 6, "Раунд");
-for (let i = 0; i < pBlockedArrs.length; i++) {
-        setEnum(pBlockedTables_Arr[i], pBlock);
-    }
-    
-// Вывод сложения п-блоков и ключей
-for (let i = 0; i < pBlockedNkeyArrs.length; i++) {
-    let addition = document.createElement("div");
-    let str = "", sumstr = "", sumstr2= "";
-    let pB = "", fK = "", pNk = "", pB2 = "", fK2 = "", pNk2 = "", s = "";
-    let header = `<h3 style="padding-left: 1rem; border-left: black solid">${i+1} Раунд</h3>`
-    sumstr2 += `<div class="addition" style="white-space: nowrap; margin: .8rem 0">`;
-    let counter = 0;
-    for (let j = 0; j < 48; j++) {
-        if (j % 6 == 0 && j != 0) {
-            sumstr2 += `<div style="white-space: nowrap;">${pB2} ⨁ ${fK2} = ${pNk2}</div>`;
-            str += `<div style="white-space: nowrap;">S${j/6} = ${parseInt(s, 2)} = ${s}</div>`;
-            additions.appendChild(addition);
-            pB2 = "", fK2 = "", pNk2 = "", s = "";
+    setSomeTables(straightReplacedArrs, straightReplacedTables_Arr, straightReplaced_TableBox, 4, 8, "Раунд");      // вывод s-блоков
+        for (let i = 0; i < straightReplacedArrs.length; i++) {
+            setEnum(straightReplacedTables_Arr[i], straightReplacing);
         }
-        if (j % 6 < 4) {
-            s += sBlockedArrs[i][counter];
-            counter++;
+
+        tableConnected.innerHTML = setTable(connected, 8);
+        setEnum(tableConnected);
+
+        tableEndingReplacing.innerHTML = setTable(endingReplaced, 8);
+        setEnum(tableEndingReplacing, endingReplacing);
+
+    // Объявляем стили сложений и скрываем вторые из них
+    addition_boxes = document.querySelectorAll(".addition");
+    partsAddition_boxes = document.querySelectorAll(".parts-addition");
+    for (let i = 0; i < addition_boxes.length; i++) {
+        if (i % 2 != 0) {
+            addition_boxes[i].style.display = "none";
+            partsAddition_boxes[i].style.display = "none";
         }
-        pB += pBlockedArrs[i][j];
-        fK += finalKeys[i][j];
-        pNk += pBlockedNkeyArrs[i][j];
-        pB2 += pBlockedArrs[i][j];
-        fK2 += finalKeys[i][j];
-        pNk2 += pBlockedNkeyArrs[i][j];
     }
-    str += `<div style="white-space: nowrap;">S8 = ${parseInt(s, 2)} = ${s}</div>`;
-    sumstr += `<div class="addition" style="white-space: nowrap; margin: .8rem 0">${pB} ⨁<br>${fK} =<br><span style="border-top: .1em black solid;">${pNk}</span></div>`;
-    sumstr2 += `<div style="white-space: nowrap;">${pB2} ⨁ ${fK2} = ${pNk2}</div></div>`;
-    // sumstr += str;
-    addition.innerHTML += header;
-    addition.innerHTML += sumstr;
-    addition.innerHTML += sumstr2;
-    addition.innerHTML += str;
-    additions.appendChild(addition);
-}
-
-// Вывод сложения частей таблицы
-for (let i = 0; i < rightArrs.length; i++) {
-    let addition = document.createElement("div");
-    let sumstr = "", sumstr2 = "";
-    let left = "", straight = "", right = "", left2 = "", straight2 = "", right2 = "";
-    let header = `<h3 style="padding-left: 1rem; border-left: black solid">${i+1} Раунд</h3>`
-    sumstr2 += `<div class="parts-addition" style="white-space: nowrap; margin: .8rem 0">`;
-    for (let j = 0; j < 32; j++) {
-        if (j % 8 == 0 && j != 0) {
-            sumstr2 += `<div style="white-space: nowrap;">${left2} ⨁ ${straight2} = ${right2}</div>`;
-            additions.appendChild(addition);
-            left2 = "", straight2 = "", right2 = "";
-        }
-        left += leftArrs[i][j];
-        straight += straightReplacedArrs[i][j];
-        right += rightArrs[i][j];
-        left2 += leftArrs[i][j];
-        straight2 += straightReplacedArrs[i][j];
-        right2 += rightArrs[i][j];
-    }
-    sumstr += `<div class="parts-addition" style="white-space: nowrap; margin: .8rem 0">${left} ⨁<br>${straight} =<br><span style="border-top: .1em black solid;">${right}</span></div>`;
-    sumstr2 += `<div style="white-space: nowrap;">${left2} ⨁ ${straight2} = ${right2}</div></div>`;
-    // sumstr += str;
-    addition.innerHTML += header;
-    addition.innerHTML += sumstr;
-    addition.innerHTML += sumstr2;
-    partsAdditions.appendChild(addition);
-}
-
-setSomeTables(sBlockedArrs, sBlockedTables_Arr, sBlocked_TableBox, 4, 8, "Раунд");      // вывод s-блоков
-
-setSomeTables(straightReplacedArrs, straightReplacedTables_Arr, straightReplaced_TableBox, 4, 8, "Раунд");      // вывод s-блоков
-    for (let i = 0; i < straightReplacedArrs.length; i++) {
-        setEnum(straightReplacedTables_Arr[i], straightReplacing);
-    }
-
-    tableConnected.innerHTML = setTable(connected, 8);
-    setEnum(tableConnected);
-
-    tableEndingReplacing.innerHTML = setTable(endingReplaced, 8);
-    setEnum(tableEndingReplacing, endingReplacing);
 }
 
 // const key = "PROTOCOL";

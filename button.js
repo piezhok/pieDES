@@ -9,11 +9,11 @@ const key_input = document.querySelector("#key-input");
 const shifts_input = document.querySelectorAll(".shift-input");
 
 
-const addition_boxes = document.querySelectorAll(".addition");
-const partsAddition_boxes = document.querySelectorAll(".parts-addition");
+// let addition_boxes;
+// let partsAddition_boxes;
 
-const addition_checkbox = document.querySelector("#addition-mode");
-const partsAddition_checkbox = document.querySelector("#parts-addition-mode");
+// const addition_checkbox = document.querySelector("#addition-mode");
+// const partsAddition_checkbox = document.querySelector("#parts-addition-mode");
 
 
 let openedText_value = document.querySelector("#openedText-input").value;
@@ -73,6 +73,54 @@ submit.addEventListener("click", function() {
             radioBtns_Arr[i].addEventListener("change", (event) => main(key_value, openedText_value, shifts, event.target.value));
         }
     }
+
+    addition_checkbox.addEventListener("change", (event) => {
+        if (addition_checkbox.checked) {
+            for (let i = 0; i < addition_boxes.length; i++) {
+                if (i % 2 != 0) {
+                    addition_boxes[i].style.display = "block";
+                    partsAddition_boxes[i].style.display = "block";
+                } else {
+                    addition_boxes[i].style.display = "none";
+                    partsAddition_boxes[i].style.display = "none";
+                }
+            }
+        } else {
+            for (let i = 0; i < addition_boxes.length; i++) {
+                if (i % 2 != 0) {
+                    addition_boxes[i].style.display = "none";
+                    partsAddition_boxes[i].style.display = "none";
+                } else {
+                    addition_boxes[i].style.display = "block";
+                    partsAddition_boxes[i].style.display = "block";
+                }
+            }
+        }
+    });
+    
+    partsAddition_checkbox.addEventListener("change", (event) => {
+        if (partsAddition_checkbox.checked) {
+            for (let i = 0; i < addition_boxes.length; i++) {
+                if (i % 2 != 0) {
+                    addition_boxes[i].style.display = "block";
+                    partsAddition_boxes[i].style.display = "block";
+                } else {
+                    addition_boxes[i].style.display = "none";
+                    partsAddition_boxes[i].style.display = "none";
+                }
+            }
+        } else {
+            for (let i = 0; i < addition_boxes.length; i++) {
+                if (i % 2 != 0) {
+                    addition_boxes[i].style.display = "none";
+                    partsAddition_boxes[i].style.display = "none";
+                } else {
+                    addition_boxes[i].style.display = "block";
+                    partsAddition_boxes[i].style.display = "block";
+                }
+            }
+        }
+    });
 });
 
 variant_input.addEventListener("change", (event) => {
@@ -85,63 +133,6 @@ variant_input.addEventListener("change", (event) => {
         key_input.value = keysList[keyVars[event.target.value]-1];
         for (let i = 0; i < 3; i++) {
             shifts_input[i].value = shiftsList[event.target.value][i];
-        }
-    }
-});
-
-
-
-for (let i = 0; i < addition_boxes.length; i++) {
-    if (i % 2 != 0) {
-        addition_boxes[i].style.display = "none";
-        partsAddition_boxes[i].style.display = "none";
-    }
-}
-
-addition_checkbox.addEventListener("change", (event) => {
-    if (addition_checkbox.checked) {
-        for (let i = 0; i < addition_boxes.length; i++) {
-            if (i % 2 != 0) {
-                addition_boxes[i].style.display = "block";
-                partsAddition_boxes[i].style.display = "block";
-            } else {
-                addition_boxes[i].style.display = "none";
-                partsAddition_boxes[i].style.display = "none";
-            }
-        }
-    } else {
-        for (let i = 0; i < addition_boxes.length; i++) {
-            if (i % 2 != 0) {
-                addition_boxes[i].style.display = "none";
-                partsAddition_boxes[i].style.display = "none";
-            } else {
-                addition_boxes[i].style.display = "block";
-                partsAddition_boxes[i].style.display = "block";
-            }
-        }
-    }
-});
-
-partsAddition_checkbox.addEventListener("change", (event) => {
-    if (partsAddition_checkbox.checked) {
-        for (let i = 0; i < addition_boxes.length; i++) {
-            if (i % 2 != 0) {
-                addition_boxes[i].style.display = "block";
-                partsAddition_boxes[i].style.display = "block";
-            } else {
-                addition_boxes[i].style.display = "none";
-                partsAddition_boxes[i].style.display = "none";
-            }
-        }
-    } else {
-        for (let i = 0; i < addition_boxes.length; i++) {
-            if (i % 2 != 0) {
-                addition_boxes[i].style.display = "none";
-                partsAddition_boxes[i].style.display = "none";
-            } else {
-                addition_boxes[i].style.display = "block";
-                partsAddition_boxes[i].style.display = "block";
-            }
         }
     }
 });
