@@ -8,10 +8,19 @@ const openedText_input = document.querySelector("#openedText-input");
 const key_input = document.querySelector("#key-input");
 const shifts_input = document.querySelectorAll(".shift-input");
 
+
+const addition_boxes = document.querySelectorAll(".addition");
+const partsAddition_boxes = document.querySelectorAll(".parts-addition");
+
+const addition_checkbox = document.querySelector("#addition-mode");
+const partsAddition_checkbox = document.querySelector("#parts-addition-mode");
+
+
 let openedText_value = document.querySelector("#openedText-input").value;
 let key_value = document.querySelector("#key-input").value;
 let shifts = [];
 let radioBtns_Arr = [];
+
 
 submit.addEventListener("click", function() {
     indexBtn_Box.textContent = "";
@@ -22,7 +31,7 @@ submit.addEventListener("click", function() {
     for (let i = 0; i < 3; i++) {
         let val = document.querySelector(`#shift${i+1}`).value;
         if (val == "")
-            val = 0;
+        val = 0;
         shifts.push(val);
     }
     if (openedText_value != "" && key_value != "") {
@@ -31,7 +40,7 @@ submit.addEventListener("click", function() {
         main(key_value, openedText_value, shifts);
         container.style.display = "flex";
         
-
+        
         // Кнопушки для переключения части текста
         if (openedTextArrs.length > 1) {
             for (let i = 0; i < openedTextArrs.length; i++) {
@@ -56,8 +65,10 @@ submit.addEventListener("click", function() {
                 indexBtn_Box.appendChild(radio)
                 indexBtn_Box.appendChild(label);
             }
+        } else {
+            document.querySelector("#indexBtn-label").style.display = "none";
         }
-
+        
         for (let i = 0; i < radioBtns_Arr.length; i++) {
             radioBtns_Arr[i].addEventListener("change", (event) => main(key_value, openedText_value, shifts, event.target.value));
         }
@@ -79,6 +90,62 @@ variant_input.addEventListener("change", (event) => {
 });
 
 
+
+for (let i = 0; i < addition_boxes.length; i++) {
+    if (i % 2 != 0) {
+        addition_boxes[i].style.display = "none";
+        partsAddition_boxes[i].style.display = "none";
+    }
+}
+
+addition_checkbox.addEventListener("change", (event) => {
+    if (addition_checkbox.checked) {
+        for (let i = 0; i < addition_boxes.length; i++) {
+            if (i % 2 != 0) {
+                addition_boxes[i].style.display = "block";
+                partsAddition_boxes[i].style.display = "block";
+            } else {
+                addition_boxes[i].style.display = "none";
+                partsAddition_boxes[i].style.display = "none";
+            }
+        }
+    } else {
+        for (let i = 0; i < addition_boxes.length; i++) {
+            if (i % 2 != 0) {
+                addition_boxes[i].style.display = "none";
+                partsAddition_boxes[i].style.display = "none";
+            } else {
+                addition_boxes[i].style.display = "block";
+                partsAddition_boxes[i].style.display = "block";
+            }
+        }
+    }
+});
+
+partsAddition_checkbox.addEventListener("change", (event) => {
+    if (partsAddition_checkbox.checked) {
+        for (let i = 0; i < addition_boxes.length; i++) {
+            if (i % 2 != 0) {
+                addition_boxes[i].style.display = "block";
+                partsAddition_boxes[i].style.display = "block";
+            } else {
+                addition_boxes[i].style.display = "none";
+                partsAddition_boxes[i].style.display = "none";
+            }
+        }
+    } else {
+        for (let i = 0; i < addition_boxes.length; i++) {
+            if (i % 2 != 0) {
+                addition_boxes[i].style.display = "none";
+                partsAddition_boxes[i].style.display = "none";
+            } else {
+                addition_boxes[i].style.display = "block";
+                partsAddition_boxes[i].style.display = "block";
+            }
+        }
+    }
+});
+
 // for (let i = 0; i < radioBtns_Arr.length; i++) {
-//     radioBtns_Arr[i].addEventListener("change", main(key_value, openedText_value, shifts, radioBtns_Arr[i].value));
-// }
+    //     radioBtns_Arr[i].addEventListener("change", main(key_value, openedText_value, shifts, radioBtns_Arr[i].value));
+    // }

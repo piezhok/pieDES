@@ -4,6 +4,7 @@ const tableShift = document.querySelectorAll(".shiftTable");
 const tableShrink = document.querySelectorAll(".shrinkTable");
 const tableOpeningReplacing = document.querySelector("#openingReplacing");
 const additions = document.querySelector("#additions");
+const partsAdditions = document.querySelector("#parts-additions");
 const tableConnected = document.querySelector("#connected");
 const tableEndingReplacing = document.querySelector("#endingReplacing");
 const indexBtn_Box = document.querySelector("#indexBtn-box");
@@ -24,16 +25,16 @@ let openedTextArrs = [];
 function main(key, openedText, shiftsNums, n=0) {
     const shiftingOnce = [1, 2, 9, 16];
 
-    tableKeyBegin.textContent = "";
-    tableKeyRemoveCheck.textContent = "";
-    tableOpeningReplacing.textContent = "";
-    additions.textContent = "";
-    tableConnected.textContent = "";
-    tableEndingReplacing.textContent = "";
-    openedText_TablesBox.textContent = "";
-    pBlocked_TableBox.textContent = "";
-    sBlocked_TableBox.textContent = "";
-    straightReplaced_TableBox.textContent = "";
+    tableKeyBegin.innerHTML = "";
+    tableKeyRemoveCheck.innerHTML = "";
+    tableOpeningReplacing.innerHTML = "";
+    additions.innerHTML = "";
+    tableConnected.innerHTML = "";
+    tableEndingReplacing.innerHTML = "";
+    openedText_TablesBox.innerHTML = "";
+    pBlocked_TableBox.innerHTML = "";
+    sBlocked_TableBox.innerHTML = "";
+    straightReplaced_TableBox.innerHTML = "";
 
     let keyArr = [];
     let keyRemoveCheck = [];
@@ -46,6 +47,8 @@ function main(key, openedText, shiftsNums, n=0) {
     let pBlockedNkeyArrs = [];
     let sBlockedArrs = [];
     let straightReplacedArrs = [];
+    let rightArrs = [];
+    let leftArrs = [];
     let connected = [];
     let endingReplaced = [];
 
@@ -295,6 +298,8 @@ for (let i = 0; i < finalKeys.length; i++) {
         for (let j = 0; j < 32; j++) {
             rightArr.push(leftArr[j] ^ straightReplaced[j]);
         }
+        rightArrs.push(rightArr);
+        leftArrs.push(leftArr);
         leftArr = tempRight;
     }
     connected = leftArr.concat(rightArr);
@@ -314,37 +319,75 @@ for (let i = 0; i < pBlockedArrs.length; i++) {
         setEnum(pBlockedTables_Arr[i], pBlock);
     }
     
-    let pB = "", fK = "", pNk = "", s = "";
-    for (let i = 0; i < pBlockedNkeyArrs.length; i++) {       // Вывод сложения п-блоков и ключей
-        let addition = document.createElement("div");
-        let str = "";
-        pB = "", fK = "", pNk = "", s = "";
-        str += `<h3 style="padding-left: 1rem; border-left: black solid">${i+1} Раунд</h3><div>`
-        let counter = 0;
-        for (let j = 0; j < 48; j++) {
-            if (j % 6 == 0 && j != 0) {
-                str += `<div style="white-space: nowrap;">${pB} + ${fK} = ${pNk} |<b> S${j/6} = ${parseInt(s, 2)} = ${s}</b></div>`;
-                additions.appendChild(addition);
-                pB = "", fK = "", pNk = "", s = "";
-            }
-            if (j % 6 < 4) {
-                s += sBlockedArrs[i][counter];
-                counter++;
-            }
-            pB += pBlockedArrs[i][j];
-            fK += finalKeys[i][j];
-            pNk += pBlockedNkeyArrs[i][j];
-            // pBlockedNkey.push(pBlocked[j] ^ finalKeys[i][j]);
+// Вывод сложения п-блоков и ключей
+for (let i = 0; i < pBlockedNkeyArrs.length; i++) {
+    let addition = document.createElement("div");
+    let str = "", sumstr = "", sumstr2= "";
+    let pB = "", fK = "", pNk = "", pB2 = "", fK2 = "", pNk2 = "", s = "";
+    let header = `<h3 style="padding-left: 1rem; border-left: black solid">${i+1} Раунд</h3>`
+    sumstr2 += `<div class="addition" style="white-space: nowrap; margin: .8rem 0">`;
+    let counter = 0;
+    for (let j = 0; j < 48; j++) {
+        if (j % 6 == 0 && j != 0) {
+            sumstr2 += `<div style="white-space: nowrap;">${pB2} ⨁ ${fK2} = ${pNk2}</div>`;
+            str += `<div style="white-space: nowrap;">S${j/6} = ${parseInt(s, 2)} = ${s}</div>`;
+            additions.appendChild(addition);
+            pB2 = "", fK2 = "", pNk2 = "", s = "";
         }
-        str += `${pB} + ${fK} = ${pNk} |<b> S8 = ${parseInt(s, 2)} = ${s}</b></div>`;
-        addition.innerHTML += str;
-        additions.appendChild(addition);
+        if (j % 6 < 4) {
+            s += sBlockedArrs[i][counter];
+            counter++;
+        }
+        pB += pBlockedArrs[i][j];
+        fK += finalKeys[i][j];
+        pNk += pBlockedNkeyArrs[i][j];
+        pB2 += pBlockedArrs[i][j];
+        fK2 += finalKeys[i][j];
+        pNk2 += pBlockedNkeyArrs[i][j];
     }
-    
-    
-    setSomeTables(sBlockedArrs, sBlockedTables_Arr, sBlocked_TableBox, 4, 8, "Раунд");      // вывод s-блоков
+    str += `<div style="white-space: nowrap;">S8 = ${parseInt(s, 2)} = ${s}</div>`;
+    sumstr += `<div class="addition" style="white-space: nowrap; margin: .8rem 0">${pB} ⨁<br>${fK} =<br><span style="border-top: .1em black solid;">${pNk}</span></div>`;
+    sumstr2 += `<div style="white-space: nowrap;">${pB2} ⨁ ${fK2} = ${pNk2}</div></div>`;
+    // sumstr += str;
+    addition.innerHTML += header;
+    addition.innerHTML += sumstr;
+    addition.innerHTML += sumstr2;
+    addition.innerHTML += str;
+    additions.appendChild(addition);
+}
 
-    setSomeTables(straightReplacedArrs, straightReplacedTables_Arr, straightReplaced_TableBox, 4, 8, "Раунд");      // вывод s-блоков
+// Вывод сложения частей таблицы
+for (let i = 0; i < rightArrs.length; i++) {
+    let addition = document.createElement("div");
+    let sumstr = "", sumstr2 = "";
+    let left = "", straight = "", right = "", left2 = "", straight2 = "", right2 = "";
+    let header = `<h3 style="padding-left: 1rem; border-left: black solid">${i+1} Раунд</h3>`
+    sumstr2 += `<div class="parts-addition" style="white-space: nowrap; margin: .8rem 0">`;
+    for (let j = 0; j < 32; j++) {
+        if (j % 8 == 0 && j != 0) {
+            sumstr2 += `<div style="white-space: nowrap;">${left2} ⨁ ${straight2} = ${right2}</div>`;
+            additions.appendChild(addition);
+            left2 = "", straight2 = "", right2 = "";
+        }
+        left += leftArrs[i][j];
+        straight += straightReplacedArrs[i][j];
+        right += rightArrs[i][j];
+        left2 += leftArrs[i][j];
+        straight2 += straightReplacedArrs[i][j];
+        right2 += rightArrs[i][j];
+    }
+    sumstr += `<div class="parts-addition" style="white-space: nowrap; margin: .8rem 0">${left} ⨁<br>${straight} =<br><span style="border-top: .1em black solid;">${right}</span></div>`;
+    sumstr2 += `<div style="white-space: nowrap;">${left2} ⨁ ${straight2} = ${right2}</div></div>`;
+    // sumstr += str;
+    addition.innerHTML += header;
+    addition.innerHTML += sumstr;
+    addition.innerHTML += sumstr2;
+    partsAdditions.appendChild(addition);
+}
+
+setSomeTables(sBlockedArrs, sBlockedTables_Arr, sBlocked_TableBox, 4, 8, "Раунд");      // вывод s-блоков
+
+setSomeTables(straightReplacedArrs, straightReplacedTables_Arr, straightReplaced_TableBox, 4, 8, "Раунд");      // вывод s-блоков
     for (let i = 0; i < straightReplacedArrs.length; i++) {
         setEnum(straightReplacedTables_Arr[i], straightReplacing);
     }
@@ -356,8 +399,11 @@ for (let i = 0; i < pBlockedArrs.length; i++) {
     setEnum(tableEndingReplacing, endingReplacing);
 }
 
-// container.style.display="flex";
-// main(key, openedText, shiftsNums, partIndex);
+const key = "PROTOCOL";
+const openedText = "В камень стрелять - только стрелы терять";
+const shiftsNums = [9, 10, 11];
+container.style.display="flex";
+main(key, openedText, shiftsNums);
 
 // дебажим
 // document.body.innerHTML += tableOpenedText.tagName;

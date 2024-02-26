@@ -54,17 +54,18 @@
             <div id="generation">
                 <h1>Генерация ключей</h1>
                 <h2 id="key-label"></h2>
-                <table id="key-begin">
-                </table>
+                <table id="key-begin"></table>
+                <div class="description">Кодируем ключ</div>
                 <h2>Удаление битов проверки</h2>
-                <table id="key-removeCheck">
-                </table>
+                <table id="key-removeCheck"></table>
+                <div class="description">Переставляем циферки ключа, следуя табличке перестановки</div>
                 <h2>Сдвиги</h2>
                 <div class="tableBox">
                     <table class="shiftTable"></table>
                     <table class="shiftTable"></table>
                     <table class="shiftTable"></table>
                 </div>
+                <div class="class=ption">Следует записывать таблицы попарно<br>(n-ый сдвиг - n-ое сжатие)</div>
                 <h2>Перестановка сжатия</h2>
                 <div class="tableBox">
                     <table id="shrink1" class="shrinkTable"></table>
@@ -74,28 +75,74 @@
             </div>
             <div id="encryption">
                 <h1>Шифрование</h1>
-                <h2 id="openedText-label">В камень стрелять - только стрелы терять</h2>
+                <h2 id="openedText-label"></h2>
                 <div class="tableBox" id="openedText-tableBox"></div>
-                <h3>Часть, которую шифруем</h3>
+                <h3 id="indexBtn-label">Часть, которую шифруем</h3>
                 <div id="indexBtn-box"></div>
                 <h2>Начальная перестановка</h2>
                 <table id="openingReplacing"></table>
-                <h2> P-Блоки</h2>
-                <div class="tableBox" id="pBlocked-tableBox">
+                <div class="description">Переставляем циферки открытого текста, следуя табличке перестановки</div>
+                <div id="important">
+                    <h2>ВАЖНО!</h2>
+                    <div>Дальше начинается работа с так называемыми раундами.
+                        Раунды мы пишем по очереди, то есть сначала нам нужно прописать всё,
+                        что касается 1-ого раунда и только потом приниматься за 2-ой.
+                        Кароче сначала мы проходимся по всем 1-ым раундам во всех блоках, 
+                        где прописаны раунды, а потом проходимся еще 2 раза. И пока
+                        мы не напишем 3-ий раунд блока "<b>Суммирование частей таблицы по модулю 2</b>",
+                        дальше идти мы не можем
+                    </div>
                 </div>
-                <h2>Суммирование по модулю 2 P-блоков с ключом</h2>
+                <h2> P-Блоки</h2>
+                <div class="tableBox" id="pBlocked-tableBox"></div>
+                <div class="description">В 1-ом раунде берем нижнюю половину начальной перестановки, далее будет браться результаты прошлых раундов</div>
+                <h2>Отбеливатель</h2>
+                <div class="description">Суммирование P-блоков с ключом по модулю 2</div>
+                <div id="checkbox-box">
+                    <input type="checkbox" id="addition-mode">
+                    <label for="addition-mode">Разделить на строки</label>
+                </div>
                 <div style="display:flex; flex-direction: row; gap: 6rem; overflow-x: auto;" id="additions"></div>
+                <div class="description">Для каждого раунда свой ключ (n-ый раунд - n-ый ключ)</div>
                 <h2>S-Блоки</h2>
                 <div class="tableBox" id="sBlocked-tableBox"></div>
+                <div class="description">Берем отбеливание, делим его по 6 циферок.
+                    Соединяем первую и последнюю циферку - получаем номер строки в таблице Sn. 4 циферки по середине -
+                    номер столбца в таблице Sn. Это всё в двоичке, если что. И у каждой циферки, из отбеливания
+                    своя табличка Sn, если что. Смотрим пересечение строки и столбца и получаем
+                    число, которое нам надо перевести в двоичку (Это я сделал там же, где и отбеливание).
+                    Дальше поочередно записываем полученные числа в таблицу
+                </div>
                 <h2>Прямая перестановка</h2>
                 <div class="tableBox" id="straightReplaced-tableBox"></div>
-                <h2>Вот здесь происходит суммирование по модулю 2 с левой частью, но я забыл вывести это на экран, займусь после пар.
-                    Надеюсь вы не дойдете до этого, а если дойдете, то скажете, что в уме посчитали
-                </h2>
+                <div class="description">
+                    Переставляем циферки S-блока, следуя табличке перестановки
+                </div>
+                <h2>Cуммирование частей таблицы по модулю 2</h2>
+                <div id="checkbox-box">
+                    <input type="checkbox" id="parts-addition-mode">
+                    <label for="parts-addition-mode">Разделить на строки</label>
+                </div>
+                <div style="display:flex; flex-direction: row; gap: 6rem; overflow-x: auto;" id="parts-additions"></div>
+                <div class="description">В 1-ом раунде первое число - верхняя часть из блока "Начальная перестановка",
+                    второе число - 1-ый раунд прямой перестановки. Результат 1-ого
+                    раунда становится на место нижней (её называют правой) части таблицы начальной перестановки и вся эта
+                    белиберда под названием "раунд" начинается сначала. На место верхней (её называют левой) части становится
+                    Изначальная правая часть из 1-ого раунда. В третьем раунде там уже сами достроите логическую
+                    цепочку и поймете че с чем складывается, ок?
+                </div>
                 <h2>Соединяем левую и правую части</h2>
                 <table id="connected"></table>
+                <div class="description">
+                    Соединяем левую и правую части из 3-его раунда предыдущего
+                    блока (по сути результаты 2-ого раунда и 3-ого соответственно)
+                </div>
                 <h2>Конечная перестановка</h2>
                 <table id="endingReplacing"></table>
+                <div class="description">
+                    Переставляем циферки таблички из прошлого блока, следуя табличке перестановки.
+                    Спокойной ночи
+                </div>
             </div>
         </div>
         <script src="script.js"></script>
