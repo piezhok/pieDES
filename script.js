@@ -188,7 +188,7 @@ function main(key, openedText, shiftsNums, n=0) {
     // Перестановка сжатия и ее вывод
     for (let i = 0; i < shiftsNums.length; i++) {
         finalKeys.push(replace(shiftedArrs[i], shrinking));
-        tableShrink[i].innerHTML = setTable(finalKeys[i], 6, 8, `${i+1} ключ`);
+        tableShrink[i].innerHTML = setTable(finalKeys[i], 6, 8, `${i+1} ключ (для сдвига ${shiftsNums[i]})`);
         setEnum(tableShrink[i], shrinking);
     }
 
