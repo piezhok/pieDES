@@ -16,8 +16,10 @@ const shifts_input = document.querySelectorAll(".shift-input");
 // const partsAddition_checkbox = document.querySelector("#parts-addition-mode");
 
 
-let openedText_value = document.querySelector("#openedText-input").value;
-let key_value = document.querySelector("#key-input").value;
+// let openedText_value = openedText_input.value;
+// let key_value = key_input.value;
+// let shift_mode_value = document.querySelector("#shift-mode").checked;
+
 let shifts = [];
 let radioBtns_Arr = [];
 
@@ -25,19 +27,23 @@ let radioBtns_Arr = [];
 submit.addEventListener("click", function() {
     indexBtn_Box.textContent = "";
     radioBtns_Arr = [];
-    openedText_value = document.querySelector("#openedText-input").value;
-    key_value = document.querySelector("#key-input").value;
+    let openedText_value = openedText_input.value;
+    let key_value = key_input.value;
+    let shift_mode_value = document.querySelector("#shift-mode").checked;
+
     shifts = [];
     for (let i = 0; i < 3; i++) {
         let val = document.querySelector(`#shift${i+1}`).value;
         if (val == "")
         val = 0;
-        shifts.push(val);
+        shifts.push(parseInt(val));
     }
     if (openedText_value != "" && key_value != "") {
         key_label.innerHTML = key_value;
         openedText_label.innerHTML = openedText_value;
-        main(key_value, openedText_value, shifts);
+
+        main(key_value, openedText_value, shifts, 0, shift_mode_value);
+
         container.style.display = "flex";
         
         
@@ -70,7 +76,7 @@ submit.addEventListener("click", function() {
         }
         
         for (let i = 0; i < radioBtns_Arr.length; i++) {
-            radioBtns_Arr[i].addEventListener("change", (event) => main(key_value, openedText_value, shifts, event.target.value));
+            radioBtns_Arr[i].addEventListener("change", (event) => main(key_value, openedText_value, shifts, event.target.value, shift_mode_value));
         }
     }
 

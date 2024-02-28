@@ -27,13 +27,14 @@ const straightReplaced_TableBox = document.querySelector("#straightReplaced-tabl
 // let partIndex = 0;
 let openedTextArrs = [];
 
-function main(key, openedText, shiftsNums, n=0) {
+function main(key, openedText, shiftsNums, n=0, allshifts = false) {
     const shiftingOnce = [1, 2, 9, 16];
 
     tableKeyBegin.innerHTML = "";
     tableKeyRemoveCheck.innerHTML = "";
     tableOpeningReplacing.innerHTML = "";
     additions.innerHTML = "";
+    partsAdditions.innerHTML = "";
     tableConnected.innerHTML = "";
     tableEndingReplacing.innerHTML = "";
     openedText_TablesBox.innerHTML = "";
@@ -162,35 +163,61 @@ function main(key, openedText, shiftsNums, n=0) {
 
     // Сдвиги всякие начинаются
     //Сдвиг
-    function shift(shift) {
-        let table1 = [], table2 = [];
-        for (let i = 0; i < 56; i++) {
-            if (i < 28)
-                table1.push(keyRemoveCheck[i]);
-            else
-                table2.push(keyRemoveCheck[i]);
-        }
-        for (let i = 1; i <= shift; i++) {
-            if (shiftingOnce.includes(i)) {
-                table1.push(table1.shift());
-                table2.push(table2.shift());
+    function shift(shiftArr) {
+        let prev1 = [], prev2 = []
+        for (let i = 0; i < shiftArr.length; i++) {
+            let table1 = [], table2 = [];
+            if (i == 0 || allshifts == true) {
+                for (let i = 0; i < 56; i++) {
+                    if (i < 28)
+                    table1.push(keyRemoveCheck[i]);
+                else
+                    table2.push(keyRemoveCheck[i]);
+                }
             } else {
-                for (let j = 0; j < 2; j++) {
+                table1 = prev1;
+                table2 = prev2;
+            }
+            if (allshifts == true) {
+                for (let j = 1; j <= shiftArr[i]; j++) {
+                    if (shiftingOnce.includes(j)) {
+                        table1.push(table1.shift());
+                        table2.push(table2.shift());
+                    } else {
+                        for (let j = 0; j < 2; j++) {
+                            table1.push(table1.shift());
+                            table2.push(table2.shift());
+                        }
+                    }
+                }
+            } else {  // Не доделал вот это, где надо не с начала начинать
+                if (shiftingOnce.includes(shiftArr[i])) {
                     table1.push(table1.shift());
                     table2.push(table2.shift());
+                    // console.log(`${i} shifts once`);
+                } else {
+                    for (let j = 0; j < 2; j++) {
+                        table1.push(table1.shift());
+                        table2.push(table2.shift());
+                    }
                 }
+                prev1 = table1;
+                prev2 = table2
             }
+            let shifted = table1.concat(table2);
+            shiftedArrs.push(shifted);
+            tableShift[i].innerHTML = setTable(shiftedArrs[i], 7, 8, `${shiftArr[i]} сдвиг`);
+            setEnum(tableShift[i]);
         }
-        let shifted = table1.concat(table2);
-        return shifted;
     }
 
     // Делаем непосредственные сдвиги и выводим
-    for (let i = 0; i < shiftsNums.length; i++) {
-        shiftedArrs.push(shift(shiftsNums[i]));
-        tableShift[i].innerHTML = setTable(shiftedArrs[i], 7, 8, `${shiftsNums[i]} сдвиг`);
-        setEnum(tableShift[i]);
-    }
+    shift(shiftsNums);
+    // for (let i = 0; i < shiftsNums.length; i++) {
+    //     shiftedArrs.push(shift(shiftsNums[i]));
+    //     tableShift[i].innerHTML = setTable(shiftedArrs[i], 7, 8, `${shiftsNums[i]} сдвиг`);
+    //     setEnum(tableShift[i]);
+    // }
 
 
     // Перестановка сжатия и ее вывод
